@@ -16,7 +16,6 @@
 
 enum servoFSM {Neutral, Sweep}servoState;
 int button;
-bool isSweeping;		//True once cycles are complete. False otherwise.
 
 void sweepFunct(){
 	switch(servoState){
@@ -27,7 +26,7 @@ void sweepFunct(){
 				servoState = Neutral;
 			break;
 		case Sweep:
-			if (isSweeping)
+			if (button == 0x01)
 				servoState = Sweep;
 			else
 				servoState = Neutral;
@@ -39,10 +38,18 @@ void sweepFunct(){
 		case Neutral:
 			break;
 		case Sweep:
-			PORTD = 0x01;		//Enable the correct port for corresponding servo.
-			_delay_us(2000);						//Open signal up (Duty cycle = 10%)
-			PORTD = 0x00;						//Disable the port
-			_delay_ms(18);							//Open signal down (Down = 90%)
+			for (int i = 0; i < 5; i++){							//5 is arbitrary
+				PORTD = 0x01;										//Enable PORTD
+				_delay_us(1000);									//Signal enabled for 1ms.
+				PORTD = 0x00;										//Disable PORTD
+				_delay_ms(19);										//Signal disabled for 19ms.
+			}
+			for (int i = 0; i < 5; i++){		//Arbitrary 5
+				PORTD = 0x01;						//Enable the correct port for corresponding servo.
+				_delay_us(2000);						//Open signal up (Duty cycle = 10%)
+				PORTD = 0x00;						//Disable the port
+				_delay_ms(18);							//Open signal down (Down = 90%)
+			}
 			break;
 		default:
 			break;
@@ -50,13 +57,16 @@ void sweepFunct(){
 }
 
 int main(void){
-  DDRD = 0x00; PORTD = 0xFF;			//Not sure if other ports needed.
+	DDRB = 0xFF; PORTB = 0x00;			//PORTB is input, via button.
+    DDRD = 0x00; PORTD = 0xFF;			//Servo PWM, set to output
 	TimerSet(50);
 	TimerOn();
 	
     while (1) {
-		  sweepFunct();
-		  while(!TimerFlag);
-		  TimerFlag = 0;
+		button = ~PINB;
+		sweepFunct();
+		while(!TimerFlag);
+		TimerFlag = 0;
     }
 }
+
