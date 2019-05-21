@@ -1,17 +1,9 @@
 from PIL import Image
 
 pathTo = "change this"
-def getImage(fileName):
+def grabImage(fileName):
+    fullPath = pathTo+fileName
     try:
-        fullPath = pathTo+fileName
         img = Image.open(fullPath)
-
-    except IOError:
-        print('IMAGE GRAB ERROR: Could not open file: ' + fullPath)
-
-def main():
-    image = raw_input("Enter image name ")
-    getImage(image)
-
-if __name__ == "__main__":
-    main()
+    except IOERROR:
+        print 'ERROR IN grabImage()... Could not open file: ' + fullPath
