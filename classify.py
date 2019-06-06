@@ -17,11 +17,11 @@ import scipy.io as sio
 
 
 
-def classifyObject(imgName):
+def classifyObject(path):
     try:
-        img = cv2.imread('179jGit/40_12_Pro.jpg', 1)
+        img = cv2.imread(path, 1)
     except AttributeError:
-        print ("ERROR CAN'T READ IMAGE")
+        print ("ERROR CAN'T READ IMAGE: " + imgName)
 
     #print (img.shape)
     h, w, _ = img.shape
@@ -127,7 +127,7 @@ def classifyObject(imgName):
 
     matfn = 'sample.mat'
     data = sio.loadmat(matfn)
-    temp = 1
+    temp = 10
     cnts = []
     for n in range(data['label'][0].size):
         ret = cv2.matchShapes(contours[idx], data['feature'][0][n], 1, 0.0)
@@ -141,8 +141,11 @@ def classifyObject(imgName):
         #cv2.drawContours(Mask, [c], -1, (255,255,255), -1) 
     area = cv2.contourArea(cnt[0])
     size = area/512/512*100
+    #c = (data['label'][0][cnts.index(temp)])
     #print(height)
-    print('class: '+ str(data['label'][0][cnts.index(temp)]))#data['label'][0][cnts.index(temp)]
+    print (temp)
+    
+    print('class: '+ str((data['label'][0][cnts.index(temp)])))#data['label'][0][cnts.index(temp)]
     #print(temp)
     print('size: '+ str(size))
     #cv2.imshow('2',sample)
@@ -154,4 +157,5 @@ def classifyObject(imgName):
     data = sio.loadmat(matfn)'''
 
     cv2.waitKey()
+    return (data['label'][0][cnts.index(temp)])
 

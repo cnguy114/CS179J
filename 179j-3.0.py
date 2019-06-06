@@ -4,23 +4,28 @@
 # In[6]:
 
 
-from skimage.measure import compare_ssim
+#from skimage.measure import compare_ssim
+
 import cv2
 import random
 import numpy as np
 import math
 import PIL.Image as Image
 import os
-import imutils
+#import imutils
 from matplotlib import pyplot as plt
 import scipy.io as sio 
 
 
 
+#def classifyObject(imgName)
+try:
+    img = cv2.imread('179jGit/40_12_Pro.jpg', 1)
+except AttributeError:
+    print ("ERROR CAN'T READ IMAGE")
 
-
-img = cv2.imread("C:\\Users\\TF\\Desktop\\data\\plastic\\1.jpg", 1)
-h, w, _ = img.shape 
+#print (img.shape)
+h, w, _ = img.shape
 dim = (512, 512)
 img = cv2.resize(img, dim)
 kernel1 = np.ones((5,5),np.uint8) 
@@ -44,8 +49,10 @@ canny = cv2.Canny(sobelCombined, 50, 150)
 
 canny = cv2.morphologyEx(canny, cv2.MORPH_CLOSE, kernel1)
 
+#print (cv2.findContours(canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
 
-(contours, _) = cv2.findContours(canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+(_ , contours ,_) = cv2.findContours(canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 areas = list()
 for i, cnt in enumerate(contours):
@@ -116,7 +123,7 @@ Mask1 = np.ones(Rotated.shape,np.uint8)
 
 
 _ , binary1 = cv2.threshold(Rotated,127,255,cv2.THRESH_BINARY)
-(cnt, _) = cv2.findContours(binary1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+(_, cnt, _) = cv2.findContours(binary1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cv2.drawContours(Mask1, cnt, 0, 255, -1)
 
 matfn = 'sample.mat'
