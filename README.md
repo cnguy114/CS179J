@@ -9,8 +9,8 @@ Team members: Chris Nguyen, Brittney Mun, Alex Wilkins, Haide He, Antonius Pangg
  Built out of cut pegboard and 2x4'' wood, the ramp is set at a 30 degree angle. Initial designs involved a flat staging platform, but the redesign was considered as it was more suitable for the application. Having the force of gravity do most of the movement meant less debugging than a mechanism to move the objects off a flat platform.
  
  ## Operation
- [raspberryPi](projPhotos/raspberryPi.jpg)
- [arduino](projPhotos/arduino.jpg)
+ ![raspberryPi](projPhotos/raspberryPi.jpg)
+ ![arduino](projPhotos/arduino.jpg)
  The system is implemented on a Raspberry Pi communicating digital signals with an Arduino. The Raspberry Pi uses OpenCV and python to classify the picture that the on-board camera takes. The digital signal indicates what material the object in question is. The Arduino then takes this signal and drives the servos to release and redirect the object to the correct bin.
  
- # For instructions on how it operates and demo on it functioning, [click here](https://www.youtube.com/watch?v=51ebx_BCK4s&)
+ ## For instructions on how it operates and demo on it functioning, [click here](https://www.youtube.com/watch?v=51ebx_BCK4s&)
